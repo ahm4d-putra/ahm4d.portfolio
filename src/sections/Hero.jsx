@@ -1,7 +1,13 @@
-import { motion } from "framer-motion";
+import { useRef, useEffect } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Button from "../components/Button";
 
-// Custom Icons
+// Daftarkan plugin GSAP
+gsap.registerPlugin(ScrollTrigger);
+
+// --- Custom Icons ---
+
 const ArrowDown = (props) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -38,7 +44,6 @@ const GithubIcon = (props) => (
   </svg>
 );
 
-// icon ig
 const InstagramIcon = (props) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -58,7 +63,8 @@ const InstagramIcon = (props) => (
   </svg>
 );
 
-// Fungsi untuk scroll smooth
+// --- Helper Function ---
+
 const scrollTo = (id) => {
   const element = document.getElementById(id);
   if (element) {
@@ -66,16 +72,111 @@ const scrollTo = (id) => {
   }
 };
 
+// --- Main Component ---
+
 export default function Hero() {
+  const containerRef = useRef(null);
+
+  useEffect(() => {
+    // 1. Setup GSAP Context (Best Practice untuk React)
+    const ctx = gsap.context(() => {
+      // Animasi Entrance (Muncul pertama kali)
+      const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
+
+      tl.from(".hero-role", {
+        y: 30,
+        opacity: 0,
+        duration: 1,
+      })
+        .from(
+          ".hero-title-line",
+          {
+            y: 100,
+            opacity: 0,
+            duration: 1.2,
+            stagger: 0.2,
+          },
+          "-=0.6",
+        )
+        .from(
+          ".hero-desc",
+          {
+            y: 30,
+            opacity: 0,
+            duration: 1,
+          },
+          "-=0.8",
+        )
+        .from(
+          ".hero-btn-item",
+          {
+            y: 20,
+            opacity: 0,
+            duration: 0.8,
+            stagger: 0.2,
+          },
+          "-=0.6",
+        )
+        .from(
+          ".hero-social-item",
+          {
+            scale: 0,
+            opacity: 0,
+            duration: 0.5,
+            stagger: 0.1,
+          },
+          "-=0.4",
+        );
+
+      // Animasi Parallax Scroll (Kesan Mewah)
+      gsap.to(".hero-title", {
+        y: -150,
+        opacity: 0.1,
+        scale: 0.9,
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top top",
+          end: "bottom top",
+          scrub: 1,
+        },
+      });
+
+      gsap.to(".blob-1", {
+        x: 100,
+        y: 100,
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top top",
+          end: "bottom top",
+          scrub: 2,
+        },
+      });
+
+      gsap.to(".blob-2", {
+        x: -100,
+        y: -100,
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top top",
+          end: "bottom top",
+          scrub: 2,
+        },
+      });
+    }, containerRef); // Scope animasi hanya di dalam containerRef
+
+    // Cleanup saat komponen unmount
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <section className="min-h-screen relative flex items-center justify-center overflow-hidden pt-20">
+    <section
+      ref={containerRef}
+      className="min-h-screen relative flex items-center justify-center overflow-hidden pt-20"
+    >
       {/* Animated Background Elements */}
       <div className="absolute inset-0">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-accent/10 rounded-full filter blur-3xl animate-pulse-glow" />
-        <div
-          className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-burgundy/20 rounded-full filter blur-3xl animate-pulse-glow"
-          style={{ animationDelay: "2s" }}
-        />
+        <div className="blob-1 absolute top-1/4 left-1/4 w-96 h-96 bg-accent/10 rounded-full filter blur-3xl" />
+        <div className="blob-2 absolute bottom-1/4 right-1/4 w-80 h-80 bg-burgundy/20 rounded-full filter blur-3xl" />
 
         <svg className="absolute inset-0 w-full h-full opacity-10">
           <defs>
@@ -99,70 +200,53 @@ export default function Hero() {
 
       <div className="container mx-auto px-6 relative z-10">
         <div className="max-w-4xl mx-auto text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="inline-block mb-8 px-4 py-2 glass rounded-lg"
-          >
+          <div className="hero-role inline-block mb-8 px-4 py-2 glass rounded-lg">
             <code className="text-sm text-accent font-mono">
               <span className="text-muted">const</span> role ={" "}
               <span className="text-light">"Full-Stack Engineer"</span>;
             </code>
-          </motion.div>
+          </div>
 
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="font-display text-5xl md:text-7xl lg:text-8xl font-bold mb-6"
-          >
-            <span className="text-light">I build real things</span>
-            <br />
-            <span className="gradient-text">that actually work</span>
-          </motion.h1>
+          {/* Penting: overflow-hidden buat animasi reveal */}
+          <h1 className="hero-title font-display text-5xl md:text-7xl lg:text-8xl font-bold mb-6 overflow-hidden">
+            <span className="hero-title-line block text-light">
+              I build real things
+            </span>
+            <span className="hero-title-line block gradient-text">
+              that actually work
+            </span>
+          </h1>
 
-          <motion.p
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="text-muted text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed"
-          >
+          <p className="hero-desc text-muted text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
             A software engineering student focused on building performant and
             scalable applications, while continuously learning to create
             impactful solutions.
-          </motion.p>
+          </p>
 
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="flex flex-col sm:flex-row gap-4 justify-center mb-12"
-          >
-            <Button
-              variant="primary"
-              size="lg"
-              onClick={() => scrollTo("projects")}
-            >
-              View My Work
-              <ArrowDown size={18} />
-            </Button>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+            <div className="hero-btn-item">
+              <Button
+                variant="primary"
+                size="lg"
+                onClick={() => scrollTo("projects")}
+              >
+                View My Work
+                <ArrowDown size={18} />
+              </Button>
+            </div>
 
-            <Button
-              variant="secondary"
-              size="lg"
-              onClick={() => scrollTo("contact")}
-            >
-              Get In Touch
-            </Button>
-          </motion.div>
+            <div className="hero-btn-item">
+              <Button
+                variant="secondary"
+                size="lg"
+                onClick={() => scrollTo("contact")}
+              >
+                Get In Touch
+              </Button>
+            </div>
+          </div>
 
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.6 }}
-            className="flex justify-center gap-4"
-          >
+          <div className="flex justify-center gap-4">
             {[
               {
                 icon: GithubIcon,
@@ -175,18 +259,19 @@ export default function Hero() {
                 label: "Instagram",
               },
             ].map(({ icon: Icon, href, label }) => (
-              <motion.a
-                key={label}
-                href={href}
-                whileHover={{ scale: 1.1, y: -2 }}
-                whileTap={{ scale: 0.95 }}
-                className="p-3 glass rounded-lg text-muted hover:text-accent hover:border-accent/30 transition-colors"
-                aria-label={label}
-              >
-                <Icon size={20} />
-              </motion.a>
+              <div key={label} className="hero-social-item">
+                <a
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-3 glass rounded-lg text-muted hover:text-accent hover:border-accent/30 transition-colors inline-block"
+                  aria-label={label}
+                >
+                  <Icon size={20} />
+                </a>
+              </div>
             ))}
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>

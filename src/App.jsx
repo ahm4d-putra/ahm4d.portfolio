@@ -7,7 +7,12 @@ import Contact from "./sections/Contact";
 import { motion } from "framer-motion";
 import Playground from "./sections/Playground";
 
-// ... (Icon Github & Instagram tetap sama) ...
+// Import GSAP Global
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+// Daftarkan Plugin GSAP sekali di sini
+gsap.registerPlugin(ScrollTrigger);
 
 const GithubIcon = (props) => (
   <svg
@@ -68,10 +73,7 @@ function App() {
         <Projects />
         <TechnicalInsights />
         <About />
-
-        {/* Pindahkan Playground ke sini, sebelum Contact */}
         <Playground />
-
         <Contact />
       </main>
 
