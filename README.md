@@ -1,221 +1,132 @@
-# Ahmad Putra Ramadhan — Personal Portfolio
+# FinTrack Pro 💰
 
-A modern, responsive, and minimal portfolio website built with **React**, **Vite**, and **Tailwind CSS**. This project showcases my projects, skills, and insights as a Full-Stack Engineer student. It also includes an **Interactive Playground** to demonstrate real-time coding logic.
+A personal finance tracker web app to manage income and expenses with ease. Started as a simple recording tool, evolved into a full web application backed by a real database.
 
-![React](https://img.shields.io/badge/React-18-blue?logo=react)
-![Vite](https://img.shields.io/badge/Vite-Latest-purple?logo=vite)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3-38B2AC?logo=tailwind-css)
-![Framer Motion](https://img.shields.io/badge/Framer_Motion-Latest-black?logo=framer)
-![GSAP](https://img.shields.io/badge/GSAP-Latest-88CE02?logo=greensock)
-![i18next](https://img.shields.io/badge/i18next-Latest-26A69A?logo=i18next)
-
----
-
-## Screenshots
-
-![Homepage Screenshot](./screenshots/ss.png)
+![HTML](https://img.shields.io/badge/HTML-40.8%25-E34F26?logo=html5&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-38.8%25-F7DF1E?logo=javascript&logoColor=black)
+![CSS](https://img.shields.io/badge/CSS-20.4%25-1572B6?logo=css3&logoColor=white)
+![Supabase](https://img.shields.io/badge/Supabase-Database-3ECF8E?logo=supabase&logoColor=white)
+![Chart.js](https://img.shields.io/badge/Chart.js-Charting-FF6384?logo=chartdotjs&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-green)
 
 ---
 
-## Key Features
+## Description
 
-- **Modern UI/UX** — Clean design with Glassmorphism effects and dark mode support.
-- **Fully Responsive** — Optimized for mobile, tablet, and desktop views.
-- **Animated Interactions** — Smooth animations powered by Framer Motion & **GSAP**.
-- **Scroll Animations** — Advanced scroll-triggered animations using **GSAP ScrollTrigger**.
-- **Dynamic Sidebar** — Mobile-friendly navigation with an animated sidebar.
-- **Multiple Language Support** — Switch between languages (EN/ID) using **react-i18next**.
-- **Interactive Playground** — Built-in **Typing Speed Test** with real-time WPM and accuracy stats.
-- **SEO Optimized** — Meta tags and Open Graph tags included for better search engine visibility.
-- **Custom Icons** — Handcrafted SVG icons to reduce external dependencies.
+FinTrack Pro is built using **Vanilla JavaScript** and **Supabase** as the backend database. No frontend framework — intentionally built this way to strengthen core JavaScript fundamentals.
+
+---
+
+## Features
+
+- **Visual Dashboard** — Summary of income, expenses, and balance displayed as charts.
+- **Transaction Management** — Add, edit, and delete transactions with categories.
+- **Filter & Search** — Search transactions by date, category, or name.
+- **Budget Alerts** — Notifications when spending approaches a set limit.
+- **Dark Mode** — Comfortable UI for nighttime use.
+- **Export CSV** — Download transaction data for reporting or backup.
+
+### Feature Checklist
+
+- [x] CRUD transactions with real-time sync
+- [x] Pie chart for expense distribution
+- [x] Bar chart for monthly trends
+- [x] Filter by date, category, and type
+- [x] Transaction search
+- [x] Dark mode toggle
+- [x] Export data to CSV
+- [x] Budget alerts
+- [ ] User authentication
+- [ ] Multi-currency support
+- [ ] Recurring transactions
+- [ ] Progressive Web App (PWA)
 
 ---
 
 ## Built With
 
-- **[React.js](https://reactjs.org/)** — A JavaScript library for building user interfaces.
-- **[Vite](https://vitejs.dev/)** — Next Generation Frontend Tooling.
-- **[Tailwind CSS](https://tailwindcss.com/)** — A utility-first CSS framework.
-- **[Framer Motion](https://www.framer.com/motion/)** — Production-ready animations for React.
-- **[GSAP](https://gsap.com/)** — Professional-grade animation library with ScrollTrigger support.
-- **[react-i18next](https://react.i18next.com/)** — Powerful internationalization framework for React.
-- **[Lucide React](https://lucide.dev/)** — Beautiful & consistent icon toolkit.
+- **HTML, CSS, Vanilla JavaScript** — Frontend, no framework.
+- **[Supabase](https://supabase.com/)** — Backend as a service (PostgreSQL).
+- **[Chart.js](https://www.chartjs.org/)** — Data visualization charts.
+- **[Phosphor Icons](https://phosphoricons.com/)** — Icon library.
 
 ---
 
 ## Getting Started
 
-### Prerequisites
+### 1. Clone the Repository
 
-Make sure you have **Node.js** (version 16 or higher) installed on your machine.
+```sh
+git clone https://github.com/ahm4d-putra/Fintrack-Pro.git
+cd Fintrack-Pro
+```
 
-- [Download Node.js](https://nodejs.org/en/download/)
+### 2. Setup Supabase
 
-### Installation
+- Create a new project at [supabase.com](https://supabase.com)
+- Go to **SQL Editor** and run the following script:
 
-1. **Clone the repo**
-   ```sh
-   git clone https://github.com/ahm4d-putra/ahm4d.portofolio.git
-   ```
+```sql
+create table transactions (
+  id bigint generated always as identity primary key,
+  user_id uuid default '00000000-0000-0000-0000-000000000001',
+  name text not null,
+  amount decimal not null,
+  type text check (type in ('income', 'expense')) not null,
+  category text not null,
+  date date not null,
+  created_at timestamp with time zone default now()
+);
 
-2. **Navigate to the project folder**
-   ```sh
-   cd ahm4d.portofolio
-   ```
+alter table transactions disable row level security;
+```
 
-3. **Install dependencies**
-   ```sh
-   npm install
-   ```
+### 3. Configure Environment
 
-4. **Start the development server**
-   ```sh
-   npm run dev
-   ```
+Edit `assets/js/config/supabase.js` with your Supabase project credentials:
 
-5. **Open in browser**
-   Open `http://localhost:5173` (or the port shown in your terminal).
+```js
+const SUPABASE_URL = 'https://your-project.supabase.co';
+const SUPABASE_ANON_KEY = 'your-anon-key';
+```
+
+> You can find both values in your Supabase project under **Settings → API**.
+
+### 4. Run the App
+
+Open `index.html` directly in your browser, or use a live server:
+
+```sh
+npx live-server
+```
 
 ---
 
 ## Project Structure
 
 ```text
-src/
-├── components/           # Reusable UI components (Button, LanguageSwitcher, etc)
-├── sections/             # Main sections (Hero, Navbar, Playground, etc)
-├── locales/              # i18n translation files
-│   ├── en/
-│   │   └── translation.json
-│   └── id/
-│       └── translation.json
-├── hooks/                # Custom hooks (useGSAP, useScrollTrigger, etc)
-├── i18n.js               # i18next configuration
-├── App.jsx               # Main application component
-├── main.jsx              # Entry point
-└── index.css             # Global styles & Tailwind directives
-public/
-├── favicon.svg
-└── og-image.png
+Fintrack-Pro/
+├── assets/
+│   ├── js/
+│   │   └── config/
+│   │       └── supabase.js     # Supabase credentials config
+│   └── ...                     # Other assets (CSS, icons, etc)
+├── index.html                  # Landing / Login page
+├── app.html                    # Main dashboard app
+└── README.md
 ```
 
 ---
 
-## GSAP Setup
+## About the Project
 
-GSAP is used for advanced animations and scroll-triggered effects. Install it via:
-
-```sh
-npm install gsap
-```
-
-Example usage in a component:
-
-```jsx
-import { useEffect, useRef } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
-gsap.registerPlugin(ScrollTrigger);
-
-export default function Hero() {
-  const heroRef = useRef(null);
-
-  useEffect(() => {
-    gsap.fromTo(
-      heroRef.current,
-      { opacity: 0, y: 60 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 1,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: heroRef.current,
-          start: 'top 80%',
-        },
-      }
-    );
-  }, []);
-
-  return <section ref={heroRef}>...</section>;
-}
-```
+This project was built as a portfolio piece and to deepen understanding of Vanilla JavaScript. By avoiding frameworks, the fundamentals of the language can be explored more thoroughly — DOM manipulation, async/await, event handling, and state management, all from scratch.
 
 ---
 
-## i18n (Multiple Language) Setup
+## Contributing
 
-This project uses **react-i18next** for multilingual support (EN/ID). Install it via:
-
-```sh
-npm install i18next react-i18next
-```
-
-**`src/i18n.js`** — i18next config:
-
-```js
-import i18n from 'i18next';
-import { initReactI18next } from 'react-i18next';
-import en from './locales/en/translation.json';
-import id from './locales/id/translation.json';
-
-i18n.use(initReactI18next).init({
-  resources: {
-    en: { translation: en },
-    id: { translation: id },
-  },
-  lng: 'en',
-  fallbackLng: 'en',
-  interpolation: { escapeValue: false },
-});
-
-export default i18n;
-```
-
-**Import in `main.jsx`**:
-
-```jsx
-import './i18n';
-```
-
-**Using translations in components**:
-
-```jsx
-import { useTranslation } from 'react-i18next';
-
-export default function Hero() {
-  const { t } = useTranslation();
-  return <h1>{t('hero.greeting')}</h1>;
-}
-```
-
-**Language Switcher example**:
-
-```jsx
-import { useTranslation } from 'react-i18next';
-
-export default function LanguageSwitcher() {
-  const { i18n } = useTranslation();
-  return (
-    <div>
-      <button onClick={() => i18n.changeLanguage('en')}>EN</button>
-      <button onClick={() => i18n.changeLanguage('id')}>ID</button>
-    </div>
-  );
-}
-```
-
----
-
-## Customization
-
-1. **Content** — Edit strings inside `src/sections/` and `src/locales/`.
-2. **Colors** — Modify `tailwind.config.js` to change the color palette.
-3. **Animations** — Tweak GSAP configs in `src/hooks/` or directly in section components.
-4. **Languages** — Add new locale JSON files in `src/locales/` and register them in `i18n.js`.
-5. **Images** — Replace `favicon.svg` and add screenshots to `public/` or `src/assets/`.
-6. **SEO** — Update `index.html` with your name, description, and OG image links.
+Contributions are welcome for new features or bug fixes. Feel free to open a pull request on GitHub.
 
 ---
 
