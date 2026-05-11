@@ -1,8 +1,11 @@
 import { motion } from "framer-motion";
 import SectionTitle from "../components/SectionTitle";
 import { journey, skills } from "../utils/data";
+import { useTranslation } from "react-i18next"; // Import hook i18n
 
 export default function About() {
+  const { t } = useTranslation(); // Inisialisasi
+
   return (
     <section id="about" className="py-24 relative">
       <div className="container mx-auto px-6">
@@ -10,8 +13,8 @@ export default function About() {
           {/* Left Column - Bio */}
           <div>
             <SectionTitle
-              subtitle="About Me"
-              title="The Journey"
+              subtitle={t('about_subtitle')} // Pakai terjemahan
+              title={t('about_title')}
               align="left"
             />
 
@@ -22,18 +25,10 @@ export default function About() {
               className="prose prose-invert max-w-none"
             >
               <p className="text-light/80 text-lg leading-relaxed mb-6">
-                I’m Ahmad Putra Ramadhan, a student from SMK 20 with a strong
-                determination to learn and grow in the field of software
-                engineering. I’m passionate about understanding how software is
-                built, from the fundamentals to real-world applications, and
-                continuously improving my skills to create useful and impactful
-                solutions.
+                {t('about_bio1')}
               </p>
               <p className="text-muted leading-relaxed mb-8">
-                My approach combines deep technical knowledge with product
-                thinking. I believe the best code isn't just clean—it's
-                strategic, solving the right problems in the simplest way
-                possible.
+                {t('about_bio2')}
               </p>
 
               {/* Skills Grid */}

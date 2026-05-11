@@ -1,8 +1,9 @@
 import { motion } from "framer-motion";
 import SectionTitle from "../components/SectionTitle";
 import { insights } from "../utils/data";
+import { useTranslation } from "react-i18next"; // Import hook i18n
 
-// Custom Icons
+// --- Custom Icons ---
 const LayersIcon = (props) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -87,22 +88,42 @@ const iconMap = {
   Accessibility: AccessibilityIcon,
 };
 
+// Helper untuk cek terjemahan
+const getText = (t, key, fallback) => {
+  const translated = t(key);
+  return translated !== key ? translated : fallback;
+};
+
 export default function TechnicalInsights() {
+  const { t } = useTranslation();
+
   return (
     <section id="insights" className="py-24 relative overflow-hidden">
       <div className="absolute right-0 top-1/2 w-1/2 h-96 bg-gradient-to-l from-burgundy/10 to-transparent blur-3xl" />
 
       <div className="container mx-auto px-6 relative z-10">
         <SectionTitle
-          subtitle="Engineering"
-          title="Technical Insights"
-          description="Key architectural decisions and principles that guide my development process."
+          subtitle={t("insights_subtitle")}
+          title={t("insights_title")}
+          description={t("insights_desc")}
           align="left"
         />
 
         <div className="grid md:grid-cols-2 gap-6">
           {insights.map((insight, index) => {
             const Icon = iconMap[insight.icon];
+            // Pakai helper biar fallback ke data asli kalo belum ada terjemahan
+            const title = getText(
+              t,
+              `insight_${index + 1}_title`,
+              insight.title,
+            );
+            const desc = getText(
+              t,
+              `insight_${index + 1}_desc`,
+              insight.description,
+            );
+
             return (
               <motion.div
                 key={insight.title}
@@ -123,11 +144,9 @@ export default function TechnicalInsights() {
                   </div>
                   <div>
                     <h3 className="font-display text-lg font-semibold text-light mb-2 group-hover:text-accent transition-colors">
-                      {insight.title}
+                      {title}
                     </h3>
-                    <p className="text-muted text-sm leading-relaxed">
-                      {insight.description}
-                    </p>
+                    <p className="text-muted text-sm leading-relaxed">{desc}</p>
                   </div>
                 </div>
               </motion.div>
@@ -135,6 +154,7 @@ export default function TechnicalInsights() {
           })}
         </div>
 
+        {/* Code Block */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -152,42 +172,28 @@ export default function TechnicalInsights() {
           </div>
           <pre className="p-6 overflow-x-auto text-sm">
             <code>
-              <span className="text-muted">
-                // My development philosophy in code
-              </span>
+              <span className="text-muted">{t("code_comment")}</span>
               {"\n\n"}
               <span className="text-burgundy">const</span>{" "}
               <span className="text-light">philosophy</span> = {"{\n"}
               {"  "}
               <span className="text-accent">learning</span>:{" "}
-              <span className="text-light">
-                'Keep building and keep improving'
-              </span>
-              ,{"\n"}
+              <span className="text-light">'{t("code_learning")}'</span>,{"\n"}
               {"  "}
               <span className="text-accent">consistency</span>:{" "}
-              <span className="text-light">
-                'Small progress every day matters'
-              </span>
-              ,{"\n"}
+              <span className="text-light">'{t("code_consistency")}'</span>,
+              {"\n"}
               {"  "}
               <span className="text-accent">problemSolving</span>:{" "}
-              <span className="text-light">
-                'Understand the problem before coding'
-              </span>
-              ,{"\n"}
+              <span className="text-light">'{t("code_problemSolving")}'</span>,
+              {"\n"}
               {"  "}
               <span className="text-accent">simplicity</span>:{" "}
-              <span className="text-light">
-                'Start simple, then improve step by step'
-              </span>
-              ,{"\n"}
+              <span className="text-light">'{t("code_simplicity")}'</span>,
+              {"\n"}
               {"  "}
               <span className="text-accent">curiosity</span>:{" "}
-              <span className="text-light">
-                'Always explore how things work'
-              </span>
-              ,{"\n"}
+              <span className="text-light">'{t("code_curiosity")}'</span>,{"\n"}
               {"};"}
             </code>
           </pre>

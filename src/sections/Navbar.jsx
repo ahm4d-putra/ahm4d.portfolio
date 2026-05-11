@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Languages } from "lucide-react"; // Hapus Github & Instagram dari sini
+import { useTranslation } from "react-i18next"; // Import hook i18n
 
-
+// --- Custom Icons (Biar aman, ga error) ---
 const GithubIcon = (props) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -39,18 +40,27 @@ const InstagramIcon = (props) => (
     <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
   </svg>
 );
-// -----------------------------------------------------
-
-const navLinks = [
-  { label: "Projects", href: "#projects" },
-  { label: "Insights", href: "#insights" },
-  { label: "About", href: "#about" },
-  { label: "Contact", href: "#contact" },
-];
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  // Hook buat terjemahan
+  const { t, i18n } = useTranslation();
+
+  // Data menu (pastikan key nya ada di i18n.js)
+  const navLinks = [
+    { label: t("nav_projects"), href: "#projects" },
+    { label: t("nav_insights"), href: "#insights" },
+    { label: t("nav_about"), href: "#about" },
+    { label: t("nav_contact"), href: "#contact" },
+  ];
+
+  // Fungsi toggle bahasa
+  const toggleLanguage = () => {
+    const newLang = i18n.language === "en" ? "id" : "en";
+    i18n.changeLanguage(newLang);
+  };
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
@@ -58,7 +68,7 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Lock scroll body saat sidebar terbuka
+  // Lock scroll pas sidebar buka
   useEffect(() => {
     if (isMobileMenuOpen) {
       document.body.style.overflow = "hidden";
@@ -98,19 +108,45 @@ export default function Navbar() {
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-accent group-hover:w-full transition-all duration-300" />
               </motion.a>
             ))}
+
+            {/* Tombol Toggle Bahasa Desktop */}
+            <motion.button
+              onClick={toggleLanguage}
+              whileHover={{ scale: 1.1 }}
+              className="flex items-center gap-2 px-3 py-1.5 border border-muted/30 rounded-lg text-muted hover:text-accent hover:border-accent/50 transition-colors"
+            >
+              <Languages size={18} />
+              <span className="text-sm font-bold">
+                {i18n.language === "en" ? "ID" : "EN"}
+              </span>
+            </motion.button>
           </div>
 
           {/* Mobile Menu Button */}
-          <button
-            className="md:hidden p-2 text-light relative z-50"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          >
-            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+          <div className="md:hidden flex items-center gap-4">
+            {/* Tombol Toggle Bahasa Mobile */}
+            <motion.button
+              onClick={toggleLanguage}
+              whileHover={{ scale: 1.1 }}
+              className="flex items-center gap-2 px-3 py-1.5 border border-muted/30 rounded-lg text-muted hover:text-accent transition-colors z-50"
+            >
+              <Languages size={18} />
+              <span className="text-sm font-bold">
+                {i18n.language === "en" ? "ID" : "EN"}
+              </span>
+            </motion.button>
+
+            <button
+              className="p-2 text-light relative z-50"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            >
+              {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
         </nav>
       </motion.header>
 
-      {/* Backdrop (Layar Gelap) */}
+      {/* Backdrop */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
@@ -134,14 +170,12 @@ export default function Navbar() {
             className="fixed top-0 right-0 h-full w-72 bg-dark z-50 md:hidden border-l border-muted/10 shadow-xl flex flex-col"
           >
             <div className="flex flex-col h-full p-6">
-              {/* Bagian Atas: Nama */}
               <div className="pt-4 pb-6 border-b border-muted/10">
                 <h2 className="font-display text-2xl font-bold text-light">
                   <span className="text-accent">.</span>ahm4d
                 </h2>
               </div>
 
-              {/* Bagian Tengah: Links */}
               <div className="flex flex-col gap-4 mt-8">
                 {navLinks.map((link, index) => (
                   <motion.a
@@ -161,14 +195,16 @@ export default function Navbar() {
               <div className="mt-auto pt-8 border-t border-muted/10">
                 <div className="flex gap-4">
                   <motion.a
-                    href="#"
+                    href="https://github.com/ahm4d-putra"
+                    target="_blank"
                     className="text-muted hover:text-accent transition-colors"
                     whileHover={{ scale: 1.1 }}
                   >
                     <GithubIcon size={20} />
                   </motion.a>
                   <motion.a
-                    href="#"
+                    href="https://www.instagram.com/ahmaddd9_"
+                    target="_blank"
                     className="text-muted hover:text-accent transition-colors"
                     whileHover={{ scale: 1.1 }}
                   >

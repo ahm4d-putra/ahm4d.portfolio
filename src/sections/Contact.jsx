@@ -3,8 +3,11 @@ import { motion } from "framer-motion";
 import { Send, Mail, MapPin } from "lucide-react";
 import SectionTitle from "../components/SectionTitle";
 import Button from "../components/Button";
+import { useTranslation } from "react-i18next"; // Import hook i18n
 
 export default function Contact() {
+  const { t } = useTranslation(); // Inisialisasi
+
   const [formState, setFormState] = useState({
     name: "",
     email: "",
@@ -44,9 +47,9 @@ export default function Contact() {
       <div className="container mx-auto px-6 relative z-10">
         <div className="max-w-4xl mx-auto">
           <SectionTitle
-            subtitle="Contact"
-            title="Let's Build Something"
-            description="Have a project in mind or just want to chat? I'm always open to discussing new opportunities and interesting ideas."
+            subtitle={t("contact_subtitle")}
+            title={t("contact_title")}
+            description={t("contact_desc")}
             align="center"
           />
 
@@ -60,7 +63,7 @@ export default function Contact() {
             >
               <div className="glass rounded-xl p-6">
                 <h4 className="font-display text-lg font-semibold text-light mb-4">
-                  Quick Info
+                  {t("contact_quick_info")}
                 </h4>
                 <div className="space-y-4">
                   <div className="flex items-center gap-3 text-muted">
@@ -80,11 +83,10 @@ export default function Contact() {
 
               <div className="glass rounded-xl p-6">
                 <h4 className="font-display text-lg font-semibold text-light mb-2">
-                  Response Time
+                  {t("contact_response_title")}
                 </h4>
                 <p className="text-muted text-sm">
-                  I typically respond within 24 hours. For urgent matters, reach
-                  out via instagram.
+                  {t("contact_response_desc")}
                 </p>
               </div>
             </motion.div>
@@ -101,7 +103,7 @@ export default function Contact() {
                 <div className="grid sm:grid-cols-2 gap-6">
                   <div>
                     <label className="block text-sm font-medium text-light mb-2">
-                      Name
+                      {t("contact_name_label")}
                     </label>
                     <input
                       type="text"
@@ -110,12 +112,12 @@ export default function Contact() {
                       onChange={handleChange}
                       required
                       className="w-full px-4 py-3 bg-dark/50 border border-muted/20 rounded-lg text-light placeholder-muted/50 focus:outline-none focus:border-accent transition-colors"
-                      placeholder="Your name"
+                      placeholder={t("contact_name_placeholder")}
                     />
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-light mb-2">
-                      Email
+                      {t("contact_email_label")}
                     </label>
                     <input
                       type="email"
@@ -124,14 +126,14 @@ export default function Contact() {
                       onChange={handleChange}
                       required
                       className="w-full px-4 py-3 bg-dark/50 border border-muted/20 rounded-lg text-light placeholder-muted/50 focus:outline-none focus:border-accent transition-colors"
-                      placeholder="you@example.com"
+                      placeholder={t("contact_email_placeholder")}
                     />
                   </div>
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-light mb-2">
-                    Message
+                    {t("contact_message_label")}
                   </label>
                   <textarea
                     name="message"
@@ -140,7 +142,7 @@ export default function Contact() {
                     required
                     rows={5}
                     className="w-full px-4 py-3 bg-dark/50 border border-muted/20 rounded-lg text-light placeholder-muted/50 focus:outline-none focus:border-accent transition-colors resize-none"
-                    placeholder="Tell me about your project..."
+                    placeholder={t("contact_message_placeholder")}
                   />
                 </div>
 
@@ -149,7 +151,7 @@ export default function Contact() {
                   animate={{ opacity: isSubmitted ? 1 : 0 }}
                   className="p-4 bg-accent/10 border border-accent/20 rounded-lg text-accent text-sm"
                 >
-                  Message sent successfully! I'll get back to you soon.
+                  {t("contact_success_msg")}
                 </motion.div>
 
                 <Button
@@ -171,7 +173,7 @@ export default function Contact() {
                     />
                   ) : (
                     <>
-                      Send Message
+                      {t("contact_btn_send")}
                       <Send size={18} />
                     </>
                   )}
