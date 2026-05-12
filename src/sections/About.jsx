@@ -1,10 +1,17 @@
 import { motion } from "framer-motion";
 import SectionTitle from "../components/SectionTitle";
 import { journey, skills } from "../utils/data";
-import { useTranslation } from "react-i18next"; // Import hook i18n
+import { useTranslation } from "react-i18next";
 
 export default function About() {
-  const { t } = useTranslation(); // Inisialisasi
+  const { t } = useTranslation();
+
+  // Helper buat ngecek terjemahan
+  const getText = (key, fallback) => {
+    const translated = t(key);
+    // Kalau hasil translate sama dengan key-nya, berarti ga ketemu, pakai fallback
+    return translated !== key ? translated : fallback;
+  };
 
   return (
     <section id="about" className="py-24 relative">
@@ -13,8 +20,8 @@ export default function About() {
           {/* Left Column - Bio */}
           <div>
             <SectionTitle
-              subtitle={t('about_subtitle')} // Pakai terjemahan
-              title={t('about_title')}
+              subtitle={t("about_subtitle")} // Panggil key about_subtitle
+              title={t("about_title")} // Panggil key about_title
               align="left"
             />
 
@@ -25,10 +32,10 @@ export default function About() {
               className="prose prose-invert max-w-none"
             >
               <p className="text-light/80 text-lg leading-relaxed mb-6">
-                {t('about_bio1')}
+                {t("about_bio1")}
               </p>
               <p className="text-muted leading-relaxed mb-8">
-                {t('about_bio2')}
+                {t("about_bio2")}
               </p>
 
               {/* Skills Grid */}
@@ -78,13 +85,14 @@ export default function About() {
 
                   <div className="glass rounded-xl p-6 hover:border-accent/30 transition-all">
                     <span className="text-xs font-mono text-accent">
-                      {item.year}
+                      {/* Pake helper getText */}
+                      {getText(`journey_${index}_year`, item.year)}
                     </span>
                     <h4 className="font-display text-lg font-semibold text-light mt-1 mb-2">
-                      {item.title}
+                      {getText(`journey_${index}_title`, item.title)}
                     </h4>
                     <p className="text-muted text-sm leading-relaxed">
-                      {item.description}
+                      {getText(`journey_${index}_desc`, item.description)}
                     </p>
                   </div>
                 </motion.div>

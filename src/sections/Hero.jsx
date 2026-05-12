@@ -1,104 +1,256 @@
-import { motion } from "framer-motion";
-import SectionTitle from "../components/SectionTitle";
-import { journey, skills } from "../utils/data";
-import { useTranslation } from "react-i18next"; // Import hook i18n
+import { useRef, useEffect } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Button from "../components/Button";
+import { useTranslation } from "react-i18next";
 
-export default function About() {
-  const { t } = useTranslation(); // Inisialisasi
+gsap.registerPlugin(ScrollTrigger);
 
-  // Helper function: Cek terjemahan, kalau gak ada pakai data asli
-  const getText = (key, fallback) => {
-    const translated = t(key);
-    return translated !== key ? translated : fallback;
-  };
+// --- Custom Icons ---
+
+const ArrowDown = (props) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    {...props}
+  >
+    <path d="M12 5v14" />
+    <path d="m19 12-7 7-7-7" />
+  </svg>
+);
+
+const GithubIcon = (props) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    {...props}
+  >
+    <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" />
+    <path d="M9 18c-4.51 2-5-2-7-2" />
+  </svg>
+);
+
+const InstagramIcon = (props) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    {...props}
+  >
+    <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
+    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+    <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
+  </svg>
+);
+
+const scrollTo = (id) => {
+  const element = document.getElementById(id);
+  if (element) {
+    element.scrollIntoView({ behavior: "smooth" });
+  }
+};
+
+export default function Hero() {
+  const containerRef = useRef(null);
+  const { t } = useTranslation();
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
+
+      // PERBAIKAN: Pakai .fromTo() biar pasti muncul (dari 0 ke 1)
+      tl.fromTo(
+        ".hero-role",
+        { y: 30, opacity: 0 },
+        { y: 0, opacity: 1, duration: 1 },
+      )
+        .fromTo(
+          ".hero-title-line",
+          { y: 100, opacity: 0 },
+          { y: 0, opacity: 1, duration: 1.2, stagger: 0.2 },
+          "-=0.6",
+        )
+        .fromTo(
+          ".hero-desc",
+          { y: 30, opacity: 0 },
+          { y: 0, opacity: 1, duration: 1 },
+          "-=0.8",
+        )
+        .fromTo(
+          ".hero-btn-item",
+          { y: 20, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.8, stagger: 0.2 },
+          "-=0.6",
+        )
+        .fromTo(
+          ".hero-social-item",
+          { scale: 0, opacity: 0 },
+          { scale: 1, opacity: 1, duration: 0.5, stagger: 0.1 },
+          "-=0.4",
+        );
+
+      // Parallax (Tetap pakai .to karena ini gerak terus)
+      gsap.to(".hero-title", {
+        y: -150,
+        opacity: 0.1,
+        scale: 0.9,
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top top",
+          end: "bottom top",
+          scrub: 1,
+        },
+      });
+
+      gsap.to(".blob-1", {
+        x: 100,
+        y: 100,
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top top",
+          end: "bottom top",
+          scrub: 2,
+        },
+      });
+
+      gsap.to(".blob-2", {
+        x: -100,
+        y: -100,
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top top",
+          end: "bottom top",
+          scrub: 2,
+        },
+      });
+    }, containerRef);
+
+    return () => ctx.revert();
+  }, []);
 
   return (
-    <section id="about" className="py-24 relative">
-      <div className="container mx-auto px-6">
-        <div className="grid lg:grid-cols-2 gap-16 items-start">
-          {/* Left Column - Bio */}
-          <div>
-            <SectionTitle
-              subtitle={t("about_subtitle")}
-              title={t("about_title")}
-              align="left"
-            />
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="prose prose-invert max-w-none"
+    <section
+      ref={containerRef}
+      className="min-h-screen relative flex items-center justify-center overflow-hidden pt-20"
+    >
+      {/* Background */}
+      <div className="absolute inset-0">
+        <div className="blob-1 absolute top-1/4 left-1/4 w-96 h-96 bg-accent/10 rounded-full filter blur-3xl" />
+        <div className="blob-2 absolute bottom-1/4 right-1/4 w-80 h-80 bg-burgundy/20 rounded-full filter blur-3xl" />
+        <svg className="absolute inset-0 w-full h-full opacity-10">
+          <defs>
+            <pattern
+              id="grid"
+              width="60"
+              height="60"
+              patternUnits="userSpaceOnUse"
             >
-              <p className="text-light/80 text-lg leading-relaxed mb-6">
-                {t("about_bio1")}
-              </p>
-              <p className="text-muted leading-relaxed mb-8">
-                {t("about_bio2")}
-              </p>
+              <path
+                d="M 60 0 L 0 0 0 60"
+                fill="none"
+                stroke="#6c756b"
+                strokeWidth="0.5"
+              />
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#grid)" />
+        </svg>
+      </div>
 
-              {/* Skills Grid */}
-              <div className="flex flex-wrap gap-2">
-                {skills.map((skill, index) => (
-                  <motion.span
-                    key={skill}
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: index * 0.05 }}
-                    whileHover={{ scale: 1.05, y: -2 }}
-                    className="px-4 py-2 text-sm bg-muted/10 text-light rounded-lg border border-muted/20 hover:border-accent/40 hover:text-accent transition-all cursor-default"
-                  >
-                    {skill}
-                  </motion.span>
-                ))}
-              </div>
-            </motion.div>
+      <div className="container mx-auto px-6 relative z-10">
+        <div className="max-w-4xl mx-auto text-center">
+          {/* 1. Role */}
+          <div className="hero-role opacity-0 inline-block mb-8 px-4 py-2 glass rounded-lg">
+            <code className="text-sm text-accent font-mono">
+              <span className="text-muted">const</span> role ={" "}
+              <span className="text-light">"{t("hero_role")}"</span>;
+            </code>
           </div>
 
-          {/* Right Column - Timeline */}
-          <div className="relative">
-            <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              className="absolute left-4 top-0 bottom-0 w-px bg-gradient-to-b from-accent via-muted to-transparent"
-            />
+          {/* 2. Title */}
+          <h1 className="hero-title font-display text-5xl md:text-7xl lg:text-8xl font-bold mb-6 overflow-hidden">
+            <span className="hero-title-line opacity-0 block text-light">
+              {t("hero_title1")}
+            </span>
+            <span className="hero-title-line opacity-0 block gradient-text">
+              {t("hero_title2")}
+            </span>
+          </h1>
 
-            <div className="space-y-8">
-              {journey.map((item, index) => (
-                <motion.div
-                  key={item.year}
-                  initial={{ opacity: 0, x: 20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.15 }}
-                  className="relative pl-12 group"
-                >
-                  <motion.div
-                    whileHover={{ scale: 1.2 }}
-                    className="absolute left-0 top-1 w-8 h-8 rounded-full bg-dark border-2 border-muted flex items-center justify-center group-hover:border-accent transition-colors"
-                  >
-                    <div className="w-2 h-2 rounded-full bg-muted group-hover:bg-accent transition-colors" />
-                  </motion.div>
+          {/* 3. Desc */}
+          <p className="hero-desc opacity-0 text-muted text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
+            {t("hero_desc")}
+          </p>
 
-                  <div className="glass rounded-xl p-6 hover:border-accent/30 transition-all">
-                    <span className="text-xs font-mono text-accent">
-                      {/* Pakai helper getText untuk Year */}
-                      {getText(`journey_${index}_year`, item.year)}
-                    </span>
-                    <h4 className="font-display text-lg font-semibold text-light mt-1 mb-2">
-                      {/* Pakai helper getText untuk Title */}
-                      {getText(`journey_${index}_title`, item.title)}
-                    </h4>
-                    <p className="text-muted text-sm leading-relaxed">
-                      {/* Pakai helper getText untuk Description */}
-                      {getText(`journey_${index}_desc`, item.description)}
-                    </p>
-                  </div>
-                </motion.div>
-              ))}
+          {/* 4. Buttons */}
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+            <div className="hero-btn-item opacity-0">
+              <Button
+                variant="primary"
+                size="lg"
+                onClick={() => scrollTo("projects")}
+              >
+                {t("btn_work")}
+                <ArrowDown size={18} />
+              </Button>
             </div>
+            <div className="hero-btn-item opacity-0">
+              <Button
+                variant="secondary"
+                size="lg"
+                onClick={() => scrollTo("contact")}
+              >
+                {t("btn_contact")}
+              </Button>
+            </div>
+          </div>
+
+          {/* 5. Socials */}
+          <div className="flex justify-center gap-4">
+            {[
+              {
+                icon: GithubIcon,
+                href: "https://github.com/ahm4d-putra",
+                label: "GitHub",
+              },
+              {
+                icon: InstagramIcon,
+                href: "https://www.instagram.com/ahmaddd9_?igsh=MTU2dnh6bTJjd2todg==",
+                label: "Instagram",
+              },
+            ].map(({ icon: Icon, href, label }) => (
+              <div key={label} className="hero-social-item opacity-0">
+                <a
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-3 glass rounded-lg text-muted hover:text-accent hover:border-accent/30 transition-colors inline-block"
+                  aria-label={label}
+                >
+                  <Icon size={20} />
+                </a>
+              </div>
+            ))}
           </div>
         </div>
       </div>

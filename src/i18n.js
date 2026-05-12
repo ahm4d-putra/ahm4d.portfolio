@@ -4,13 +4,13 @@ import { initReactI18next } from "react-i18next";
 const resources = {
   en: {
     translation: {
-      // === NAVBAR ===
+      // ================= NAVBAR =================
       nav_projects: "Projects",
       nav_insights: "Insights",
       nav_about: "About",
       nav_contact: "Contact",
 
-      // === HERO ===
+      // ================= HERO =================
       hero_role: "Full-Stack Engineer",
       hero_title1: "I build real things",
       hero_title2: "that actually work",
@@ -19,7 +19,7 @@ const resources = {
       btn_work: "View My Work",
       btn_contact: "Get In Touch",
 
-      // === PROJECTS ===
+      // ================= PROJECTS =================
       projects_subtitle: "Portfolio",
       projects_title: "Featured Projects",
       projects_desc:
@@ -50,7 +50,7 @@ const resources = {
       projects_4_solution:
         "Built a desktop application that allows users to generate and store QR codes locally, using a simple GUI and local database for saving history.",
 
-      // === INSIGHTS ===
+      // ================= INSIGHTS =================
       insights_subtitle: "Engineering",
       insights_title: "Technical Insights",
       insights_desc:
@@ -67,6 +67,7 @@ const resources = {
       insight_4_title: "User-Focused Design",
       insight_4_desc:
         "Building interfaces that are simple, clear, and easy to use, with attention to layout and responsiveness.",
+      // Code Block inside Insights
       code_comment: "// My development philosophy in code",
       code_learning: "Keep building and keep improving",
       code_consistency: "Small progress every day matters",
@@ -74,7 +75,7 @@ const resources = {
       code_simplicity: "Start simple, then improve step by step",
       code_curiosity: "Always explore how things work",
 
-      // === ABOUT ===
+      // ================= ABOUT =================
       about_subtitle: "About Me",
       about_title: "The Journey",
       about_bio1:
@@ -82,7 +83,7 @@ const resources = {
       about_bio2:
         "My approach combines deep technical knowledge with product thinking. I believe the best code isn't just clean—it's strategic, solving the right problems in the simplest way possible.",
 
-      // === JOURNEY / TIMELINE (PENTING INI!) ===
+      // Journey / Timeline (PENTING!)
       journey_0_year: "2017",
       journey_0_title: "First Exposure to Technology",
       journey_0_desc:
@@ -100,7 +101,7 @@ const resources = {
       journey_3_desc:
         "Currently focused on improving my skills by building projects, learning new technologies, and strengthening my problem-solving mindset.",
 
-      // === CONTACT ===
+      // ================= CONTACT =================
       contact_subtitle: "Contact",
       contact_title: "Let's Build Something",
       contact_desc:
@@ -119,7 +120,7 @@ const resources = {
         "Message sent successfully! I'll get back to you soon.",
       contact_btn_send: "Send Message",
 
-      // === PLAYGROUND ===
+      // ================= PLAYGROUND =================
       playground_title: "Interactive Playground",
       playground_subtitle: "Test your coding speed. Type the code below.",
       playground_speed: "Speed",
@@ -129,13 +130,13 @@ const resources = {
   },
   id: {
     translation: {
-      // === NAVBAR ===
+      // ================= NAVBAR =================
       nav_projects: "Proyek",
       nav_insights: "Wawasan",
       nav_about: "Tentang",
       nav_contact: "Kontak",
 
-      // === HERO ===
+      // ================= HERO =================
       hero_role: "Insinyur Full-Stack",
       hero_title1: "Saya membangun hal nyata",
       hero_title2: "yang benar-benar bekerja",
@@ -144,7 +145,7 @@ const resources = {
       btn_work: "Lihat Karya Saya",
       btn_contact: "Hubungi Saya",
 
-      // === PROJECTS ===
+      // ================= PROJECTS =================
       projects_subtitle: "Portofolio",
       projects_title: "Proyek Unggulan",
       projects_desc:
@@ -175,7 +176,7 @@ const resources = {
       projects_4_solution:
         "Membangun aplikasi desktop yang memungkinkan pengguna membuat dan menyimpan kode QR secara lokal, menggunakan GUI sederhana dan database lokal untuk menyimpan riwayat.",
 
-      // === INSIGHTS ===
+      // ================= INSIGHTS =================
       insights_subtitle: "Teknik",
       insights_title: "Wawasan Teknis",
       insights_desc:
@@ -192,6 +193,7 @@ const resources = {
       insight_4_title: "Desain Berfokus Pengguna",
       insight_4_desc:
         "Membangun antarmuka yang sederhana, jelas, dan mudah digunakan, dengan memperhatikan tata letak dan responsivitas.",
+      // Code Block inside Insights
       code_comment: "// Filosofi pengembangan saya dalam kode",
       code_learning: "Terus membangun dan terus berkembang",
       code_consistency: "Kemajuan kecil setiap hari itu penting",
@@ -199,7 +201,7 @@ const resources = {
       code_simplicity: "Mulai dari sederhana, tingkatkan tahap demi tahap",
       code_curiosity: "Selalu eksplorasi cara kerja sesuatu",
 
-      // === ABOUT ===
+      // ================= ABOUT =================
       about_subtitle: "Tentang Saya",
       about_title: "Perjalanan",
       about_bio1:
@@ -207,7 +209,7 @@ const resources = {
       about_bio2:
         "Pendekatan saya menggabungkan pengetahuan teknis mendalam dengan pemikiran produk. Saya percaya kode terbaik tidak hanya bersih—itu strategis, memecahkan masalah yang tepat dengan cara sesederhana mungkin.",
 
-      // === JOURNEY / TIMELINE (PENTING INI!) ===
+      // Journey / Timeline (PENTING!)
       journey_0_year: "2017",
       journey_0_title: "Pengenalan Pertama Teknologi",
       journey_0_desc:
@@ -225,7 +227,7 @@ const resources = {
       journey_3_desc:
         "Saat ini fokus pada peningkatan keterampilan dengan membangun proyek, belajar teknologi baru, dan memperkuat pola pikir pemecahan masalah.",
 
-      // === CONTACT ===
+      // ================= CONTACT =================
       contact_subtitle: "Kontak",
       contact_title: "Mari Membangun Sesuatu",
       contact_desc:
@@ -244,10 +246,10 @@ const resources = {
         "Pesan berhasil terkirim! Saya akan segera menghubungi Anda.",
       contact_btn_send: "Kirim Pesan",
 
-      // === PLAYGROUND ===
+      // ================= PLAYGROUND =================
       playground_title: "Area Eksperimen",
       playground_subtitle:
-        "Uji kecepatan mengetis kodenya. Ketik kode di bawah ini.",
+        "Uji kecepatan mengetik kodenya. Ketik kode di bawah ini.",
       playground_speed: "Kecepatan",
       playground_accuracy: "Akurasi",
       playground_success: "Sempurna!",
@@ -257,7 +259,7 @@ const resources = {
 
 i18n.use(initReactI18next).init({
   resources,
-  lng: "en",
+  lng: "en", // Bahasa default
   interpolation: {
     escapeValue: false,
   },
